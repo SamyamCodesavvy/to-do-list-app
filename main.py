@@ -26,17 +26,22 @@ head_text = Label(root, text="TO-DO LIST", font=(font_name1, 16 ,"bold"), backgr
 head_text.place(x=141, y=26)
 task_here = Label(root, text="Enter task:", font=(font_name2, 14, "italic", "bold"), padx=7, pady=5)
 task_here.place(y=105)
-task_entry = Entry(root, font=(font_name1, 12, "bold"), width=31, background=color2, foreground=color5)
-task_entry.place(x=105, y=105, height=31)
+task_entry = Entry(root, font=(font_name1, 12, "bold"), width=25, background=color2, foreground=color5)
+task_entry.place(x=107, y=105, height=33)
 task_entry.focus()
-add_task_button = Button(
+add_button = Button(
     root,
-    text="Add Task",
-    font=(font_name1, 13, "bold"),
-    width=10,
-    background=color2,
+    text="ADD",
+    font=(font_name1, 12, "bold"),
+    width=4,
+    background=color4,
     foreground=color5,
     activebackground=color3,
     activeforeground=color4)
-add_task_button.place(x=8, y=155)
+add_button.place(x=337, y=105)
+delete_button = Button(
+    root,
+    text="Delete",
+
+)
 root.mainloop()
