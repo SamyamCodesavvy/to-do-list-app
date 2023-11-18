@@ -2,8 +2,14 @@ from tkinter import *
 from tkinter import messagebox
 import sqlite3 as sql
 color1 = "#677580"
+color2 = "#808F9A"
+color3= "#D1E0ED"
+color4 = "#000000"
+color5 = "#FFFFFF"
 font_name1 = "Arial"
 font_name2 = "Times New Roman"
+def set_cursor_position(event):
+    task_entry.icursor(5)
 root = Tk()
 root.title("To-Do List App")
 root.iconbitmap("to_do_list_icon.ico")
@@ -14,17 +20,23 @@ db_connect = sql.connect("TodoTaskLists.db")
 cursor = db_connect.cursor()
 cursor.execute("create table if not exists tasks (title text)")
 tasks = []
-# framing = Frame(root)
-# framing.pack(side="top", expand=True, fill="both")
-# task_label = Label(framing, text="Enter task here: ", font=(font_name1, 12, "bold"), background="black", foreground="white")
-# task_label.place(x=5, y=5)
 topbar_image = PhotoImage(file="topbar.png")
 Label(root, image=topbar_image).pack()
-head_text = Label(root, text="TO-DO LIST", font=(font_name1, 16 ,"bold"), bg=color1, fg= "white")
+head_text = Label(root, text="TO-DO LIST", font=(font_name1, 16 ,"bold"), background=color1, foreground=color5)
 head_text.place(x=141, y=26)
-task_here = Label(root, text="Enter task here:", font=(font_name2, 14, "italic", "bold"), padx=10, pady=5)
-task_here.place(y=84)
-task_entry = Entry(root, font = (font_name1, 12), width=26)
-task_entry.place(x=143, y=84, height=31)
-
+task_here = Label(root, text="Enter task:", font=(font_name2, 14, "italic", "bold"), padx=7, pady=5)
+task_here.place(y=105)
+task_entry = Entry(root, font=(font_name1, 12, "bold"), width=31, background=color2, foreground=color5)
+task_entry.place(x=105, y=105, height=31)
+task_entry.focus()
+add_task_button = Button(
+    root,
+    text="Add Task",
+    font=(font_name1, 13, "bold"),
+    width=10,
+    background=color2,
+    foreground=color5,
+    activebackground=color3,
+    activeforeground=color4)
+add_task_button.place(x=8, y=155)
 root.mainloop()
