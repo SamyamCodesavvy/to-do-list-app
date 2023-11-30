@@ -3,9 +3,10 @@ from tkinter import messagebox
 import sqlite3 as sql
 color1 = "#677580"
 color2 = "#808F9A"
-color3= "#D1E0ED"
+color3 = "#D1E0ED"
 color4 = "#000000"
 color5 = "#FFFFFF"
+color6 = "#86DC3D"
 font_name1 = "Arial"
 font_name2 = "Times New Roman"
 font_name3 = "Comic Sans MS"
@@ -14,18 +15,80 @@ def onclick_add_button():
     if retr_task:
         tasks.append(retr_task)
         cursor.execute("insert into tasks values (?)", (retr_task,))
-        listbox.delete(0, "END")
-        listbox.insert(END, retr_task)
+        db_connect.commit()
+        # Add numbers and two spaces to the beginning of the task
+        task_number = len(tasks)  # Get the number of tasks
+        listbox.insert(END, retr_task)  # Insert task with number at the beginning
         task_entry.delete(0, END)
     else:
         messagebox.showinfo("Error", "No task in the field.")
+def onclick_mark_as_done_button():
+    try:
+        selected_index = listbox.curselection()[0]
+        selected_task = tasks[selected_index]
+
+        # Add a tick mark to the task if not already marked
+        if not selected_task.startswith("✔"):
+            tasks[selected_index] = f"✔ {selected_task}"
+            listbox.delete(selected_index)
+            listbox.insert(selected_index, tasks[selected_index])
+
+            # Update the task with the tick mark in the database
+            cursor.execute("UPDATE tasks SET title = ? WHERE rowid = ?", (tasks[selected_index], selected_index + 1))
+            db_connect.commit()
+    except IndexError:
+        messagebox.showinfo("Error", "Select a task to mark as done.")
+
+
 def onclick_delete_button():
     try:
         spec_task = listbox.curselection()[0]
         listbox.delete(spec_task)
-        tasks.pop(spec_task)
+        deleted_task = tasks.pop(spec_task)
+        cursor.execute("DELETE FROM tasks WHERE rowid = ?", (spec_task + 1,))
+        db_connect.commit()
     except:
         messagebox.showinfo("Error", "Select a task to delete.")
+def onclick_edit_button():
+    try:
+        selected_index = listbox.curselection()[0]
+        updated_task = task_entry.get()
+
+        if updated_task:
+            tasks[selected_index] = updated_task
+            listbox.delete(selected_index)
+            listbox.insert(selected_index, f"{selected_index + 1}. {updated_task}")
+
+            # Update the task in the SQL database
+            cursor.execute("UPDATE tasks SET title = ? WHERE rowid = ?", (updated_task, selected_index + 1))
+            db_connect.commit()
+
+            task_entry.delete(0, END)
+        else:
+            messagebox.showinfo("Error", "No task entered.")
+    except IndexError:
+        messagebox.showinfo("Error", "Select a task to edit.")
+
+    edit_button = Button(
+        root,
+        text="EDIT",
+        font=(font_name1, 12, "bold"),
+        width=10,
+        background=color4,
+        foreground=color5,
+        activebackground=color3,
+        activeforeground=color4,
+        cursor="hand2",
+        padx=5,
+        command=onclick_edit_button  # Binding the function to the button
+    )
+    edit_button.place(x=147, y=195)
+def load_tasks_from_db():
+    cursor.execute("SELECT * FROM tasks")
+    rows = cursor.fetchall()
+    for row in rows:
+        tasks.append(row[0])
+        listbox.insert(END, f"{len(tasks)}. {row[0]}")
 
 root = Tk()
 root.title("To-Do List App")
@@ -72,7 +135,7 @@ delete_button = Button(
     padx=5,
     command=onclick_delete_button
 )
-delete_button.place(x=12, y=150)
+delete_button.place(x=12, y=195)
 edit_button = Button(
     root,
     text="EDIT",
@@ -84,9 +147,9 @@ edit_button = Button(
     activeforeground=color4,
     cursor="hand2",
     padx=5,
-    # command=onclick_edit_button
+    command=onclick_edit_button
 )
-edit_button.place(x=147, y=150)
+edit_button.place(x=147, y=195)
 delete_all_button = Button(
     root,
     text="DELETE ALL",
@@ -99,13 +162,28 @@ delete_all_button = Button(
     cursor="hand2",
     padx=5
 )
-delete_all_button.place(x=280, y=150)
+delete_all_button.place(x=280, y=195)
+mark_as_done_button = Button(
+    root,
+    text="MARK AS DONE",
+    font=(font_name1, 12, "bold"),
+    width=17,
+    background=color4,
+    foreground=color5,
+    activebackground=color3,
+    activeforeground=color4,
+    cursor="hand2",
+    padx=5,
+    command=onclick_mark_as_done_button
+)
+mark_as_done_button.place(x=12, y=150)
 frame = Frame(root, bd=3, width=700, height=280, background=color2)
-frame.pack(pady=(115,0))
-listbox = Listbox(frame, font=(font_name2, 10), width=62, height=20, background=color2, foreground=color4)
-listbox.pack(side=LEFT, fill=BOTH, padx=2)
+frame.pack(pady=(160,0))
+listbox = Listbox(frame, font=(font_name1, 14, "bold"), width=34, height=20, background=color2, foreground=color5)
+listbox.pack(side=LEFT, fill=BOTH, padx=2, expand=True)
 scrollbar = Scrollbar(frame)
 scrollbar.pack(side=RIGHT, fill=BOTH)
 listbox.config(yscrollcommand=scrollbar.set)
 scrollbar.config(command=listbox.yview)
+load_tasks_from_db()
 root.mainloop()
