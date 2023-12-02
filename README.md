@@ -18,7 +18,7 @@ This Python script implements a straightforward To-Do List application using Tki
 - **Libraries**: Necessary Python libraries (`tkinter`, `sqlite3`) should be available.
 
 ### Running the Application
-1. **Execution**: Run the Python script `todo_list.py`.
+1. **Execution**: Run the Python script `main.py`.
 2. **Interface**: The To-Do List application window will open.
 3. **Adding Tasks**: Enter tasks and click "ADD" to add them to the list.
 4. **Managing Tasks**: Select a task to mark as done, edit, or delete using the respective buttons.
