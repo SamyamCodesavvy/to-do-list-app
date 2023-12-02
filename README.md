@@ -1,5 +1,3 @@
-
-
 # To-Do List Application
 
 ## Introduction
@@ -34,7 +32,3 @@ This Python script implements a straightforward To-Do List application using Tki
 ## Conclusion
 
 The To-Do List application offers a simple yet effective way to manage tasks. Contributions are welcome to enhance functionality, improve the user interface, or fix any issues. Feel free to fork the repository, make modifications, and create pull requests to contribute to the project's development.
-
----
-
-Make sure to update any specific paths or instructions regarding the image files and verify the script's compatibility with Python 3.x before usage or contribution.
