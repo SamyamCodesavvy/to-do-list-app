@@ -17,6 +17,9 @@ This Python script implements a straightforward To-Do List application using Tki
 - **Python**: Ensure Python 3.x is installed.
 - **Libraries**: Necessary Python libraries (`tkinter`, `sqlite3`) should be available.
 
+### Requirements
+- **Python**: Ensure Python 3.x is installed.
+- **Libraries**: Necessary Python libraries (`tkinter`, `sqlite3`) should be available.
 ### Running the Application
 1. **Execution**: Run the Python script `main.py`.
 2. **Interface**: The To-Do List application window will open.
