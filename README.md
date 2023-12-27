@@ -24,7 +24,8 @@ This Python script implements a straightforward To-Do List application using Tki
 4. **Managing Tasks**: Select a task to mark as done, edit, or delete using the respective buttons.
 5. **Deleting Tasks**: Use the "DELETE TASK" button for individual tasks or "DELETE ALL TASKS" to clear the entire list.
 
-### Additional Notes
+### Additional Notes...
+
 - **Database Management**: The application uses SQLite to store tasks. A file named `AllTasks.db` manages the tasks.
 - **Task Status**: Completed tasks have a "✔" symbol at the beginning of their description.
 - **Image Files**: Ensure the necessary image files (`to_do_list_icon.ico`, `topbar.png`) are in the script's directory.
